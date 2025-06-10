@@ -1,0 +1,135 @@
+diff --git a/include/class-config.php b/include/class-config.php
+index d0ffe83..75d7276 100644
+--- a/include/class-config.php
++++ b/include/class-config.php
+@@ -48,8 +48,10 @@ class config{
+      * @param string $this->cfile filename
+      * @return boolean
+      */
+-    public function __construct($cfile="config/config.xml"){
+-        $this->cfile = $cfile;
++    public function __construct(){
++        $this->cfile = getenv("CONFIG_PATH");
++	if ($this->cfile == null)
++		throw new Exception("No CONFIG_PATH was set");
+ 
+         if (!file_exists($this->cfile)) {
+             $this->save();
+diff --git a/include/controller-admin.php b/include/controller-admin.php
+index 180aec0..2abd992 100644
+--- a/include/controller-admin.php
++++ b/include/controller-admin.php
+@@ -14,7 +14,7 @@ if (isset($_SESSION['relaxx'])) {
+ 
+     // read config
+     require("class-config.php");
+-    $config = new config("../config/config.xml");
++    $config = new config();
+     if ($_SESSION['relaxx'] == "anonymous") {
+         if (($config->admin_name == $_POST['admin']) && ($config->admin_pass == md5($_POST['password']))) {
+             $_SESSION['relaxx'] = $_POST['admin'];
+diff --git a/include/controller-cbase.php b/include/controller-cbase.php
+index 0461f62..50b2920 100644
+--- a/include/controller-cbase.php
++++ b/include/controller-cbase.php
+@@ -11,7 +11,7 @@ header("Content-type: text/javascript;  charset=utf-8");
+ 
+ // read config
+ require("class-config.php");
+-$config = new config("../config/config.xml");
++$config = new config();
+ 
+ if (isset($_SESSION['relaxx'])) {
+ 
+diff --git a/include/controller-common.php b/include/controller-common.php
+index da4536f..6381131 100644
+--- a/include/controller-common.php
++++ b/include/controller-common.php
+@@ -12,7 +12,7 @@ header("Content-type: text/javascript;  charset=utf-8");
+ 
+ // read config
+ require("class-config.php");
+-$config = new config("../config/config.xml");
++$config = new config();
+ 
+ // include MPD-lib and connect
+ require_once 'lib-mpd.php';
+diff --git a/include/controller-database.php b/include/controller-database.php
+index c517ef0..3deb906 100644
+--- a/include/controller-database.php
++++ b/include/controller-database.php
+@@ -18,7 +18,7 @@ if (isset($_SESSION['relaxx'])) {
+ 
+     // read config
+     require("class-config.php");
+-    $config = new config("../config/config.xml");
++    $config = new config();
+ 
+     // include MPD-lib and connect
+     require_once 'lib-mpd.php';
+diff --git a/include/controller-mpdadmin.php b/include/controller-mpdadmin.php
+index 642c8ca..3649a59 100644
+--- a/include/controller-mpdadmin.php
++++ b/include/controller-mpdadmin.php
+@@ -11,7 +11,7 @@
+  
+  // read config
+  require("class-config.php");   
+- $config = new config("../config/config.xml");
++ $config = new config();
+  
+  if (isset($_SESSION['relaxx']) && ($_SESSION['relaxx']==$config->admin_name) && ($_SESSION['relaxx_pass']==$config->admin_pass)) {
+      
+diff --git a/include/controller-playback.php b/include/controller-playback.php
+index f307d3f..facb280 100644
+--- a/include/controller-playback.php
++++ b/include/controller-playback.php
+@@ -13,7 +13,7 @@
+    	
+    // read config
+    require("class-config.php");   
+-   $config = new config("../config/config.xml");
++   $config = new config();
+    
+    // include MPD-lib and connect
+    require_once 'lib-mpd.php';
+@@ -67,4 +67,4 @@
+ 	}
+ 	echo json_encode($status);
+ }
+-?>
+\ No newline at end of file
++?>
+diff --git a/include/controller-playlist.php b/include/controller-playlist.php
+index 5aada21..dbc6542 100644
+--- a/include/controller-playlist.php
++++ b/include/controller-playlist.php
+@@ -12,7 +12,7 @@
+  	
+    // read config
+    require("class-config.php");   
+-   $config = new config("../config/config.xml");
++   $config = new config();
+    
+    // include MPD-lib and connect
+    require_once 'lib-mpd.php';
+@@ -73,4 +73,4 @@
+ 	}
+ 	echo json_encode($status);			
+  }
+-?>
+\ No newline at end of file
++?>
+diff --git a/include/controller-plugin.php b/include/controller-plugin.php
+index cd464ac..91df3a5 100644
+--- a/include/controller-plugin.php
++++ b/include/controller-plugin.php
+@@ -20,7 +20,7 @@ if (isset($_SESSION['relaxx'])) {
+     if (file_exists('../plugins/'.$plugin_name.'/plugin.php')) {
+         // read config
+         require_once("class-config.php");
+-        $config = new config("../config/config.xml");
++        $config = new config();
+         // read read plugin and execute
+         require_once('../plugins/'.$plugin_name.'/plugin.php');
+         if (!file_exists('../plugins/'.$plugin_name.'/lang/'.$config->language.".xml")) { $config->language = "en"; }
