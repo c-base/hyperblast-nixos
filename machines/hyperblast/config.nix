@@ -38,6 +38,49 @@
   # You can disable this if you're only using the Wayland session.
   services.xserver.enable = true;
 
+  fileSystems."/var/lib/mpd/music/00_music" = {
+    device = "//kgb.cbrp3.c-base.org/music";
+    fsType = "cifs";
+    options = [
+      "ro"
+      "username=mpeg"
+      "password=blast"
+      "uid=0"
+      "gid=0"
+      "dir_mode=0777"
+      "file_mode=0666"
+    ];
+  };
+
+  fileSystems."/var/lib/mpd/music/01_incoming" = {
+    device = "//kgb.cbrp3.c-base.org/incoming/music";
+    fsType = "cifs";
+    options = [
+      "ro"
+      "username=mpeg"
+      "password=blast"
+      "uid=0"
+      "gid=0"
+      "dir_mode=0777"
+      "file_mode=0666"
+    ];
+  };
+
+  fileSystems."/var/lib/mpd/music/02_megablast" = {
+    device = "//10.0.1.24/music";
+    fsType = "cifs";
+    options = [
+      "ro"
+      "username=alien"
+      "password=alien"
+      "sec=ntlmssp"
+      "uid=0"
+      "gid=0"
+      "dir_mode=0777"
+      "file_mode=0666"
+    ];
+  };
+
   fileSystems."/var/lib/mpd/music/04_mfs" = {
     device = "//mfs.cbrp3.c-base.org/mfs/Music";
     fsType = "cifs";
@@ -51,6 +94,8 @@
       "file_mode=0666"
     ];
   };
+
+
 
   # Enable the KDE Plasma Desktop Environment.
   services.displayManager.sddm.enable = true;
