@@ -95,8 +95,6 @@
     ];
   };
 
-
-
   # Enable the KDE Plasma Desktop Environment.
   services.displayManager.sddm.enable = true;
   services.desktopManager.plasma6.enable = true;
@@ -136,6 +134,7 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.alien = {
     isNormalUser = true;
+    initialHashedPassword = "$y$j9T$iV3QB.58L6p1SxmkZE2mc/$m7nCYMR6wccCQU38U8v3LuGiurweJgyFCGJa4SQmvu7";
     description = "Alien";
     extraGroups = [
       "networkmanager"
