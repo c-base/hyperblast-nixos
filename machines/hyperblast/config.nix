@@ -147,7 +147,37 @@
       #  thunderbird
     ];
   };
+  users.users.smile= {
+    isNormalUser = true;
+    description = "Smile";
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+      "pipewire"
+    ];
+  };
+  users.users.barstatus= {
+    isNormalUser = true;
+    description = "Bar-Status";
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+      "pipewire"
+    ];
+  };
 
+  security.sudo.extraRules = [
+    {
+      users = [ "smile" ];
+      commands = [
+        {
+          command = "ALL";
+          options = [ "NOPASSWD" ];
+        }
+      ];
+    }
+  ];
+    
   nix.settings = {
     experimental-features = [
       "nix-command"
@@ -174,6 +204,10 @@
     git
     bash
     python3
+    gcc
+    gnumake
+    binutils
+    pkg-config
   ];
 
   # List services that you want to enable:
